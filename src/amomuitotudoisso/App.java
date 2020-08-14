@@ -9,6 +9,7 @@ public class App {
 		Scanner scan = new Scanner(System.in);
 		int opcao;
 		FilaClientes sc = new FilaClientes();
+		FilaEsperaPedido fep = new FilaEsperaPedido();
 		
 		do {
 			System.out.println("PROJETO AMO MUITO TUDO ISSO");
@@ -18,6 +19,10 @@ public class App {
 			System.out.println("2. Encontrar Cliente");
 			System.out.println("==============================");
 			System.out.println("3. Encontrar Cliente Preferencial");
+			System.out.println("==============================");
+			System.out.println("4. Realizar Pedido.");
+			System.out.println("==============================");
+			System.out.println("5. Ver média de satisfação.");
 			System.out.println("==============================");
 			System.out.println("0. Sair");
 			System.out.println("==============================");
@@ -101,6 +106,141 @@ public class App {
 					System.out.println("==============================\n");
 				}
 			}
+			
+			if(opcao == 4) {
+				int numPedido = 0;
+				Pedido pedido = new Pedido();
+				ClienteIdoso clienteIdosoEncontrado = sc.retornarClientesIdoso();
+				if(clienteIdosoEncontrado == null) {
+					System.out.println("\n======================================================================================");
+					System.out.println("Bom. Não temos nenhuma senha preferêncial. Neste caso vou chamar da fila Normal.");
+					System.out.println("======================================================================================");
+					Cliente clienteEncontrado = sc.retornarCliente();
+					if(clienteEncontrado == null) {
+						System.out.println("\n==============================");
+						System.out.println("Nenhuma senha encontrada.");
+						System.out.println("==============================\n");
+					}else {
+						System.out.println("\n======================================================================================");
+						System.out.println(clienteEncontrado.getNome().toUpperCase() + " por favor, realize o seu pedido.");
+						System.out.println("======================================================================================\n");
+						System.out.println("------------------ CARDÁPIO ------------------");
+						System.out.println("1. Misto Quente --------------------- R$ 2.50");
+						System.out.println("2. Hanburguer ----------------------- R$ 2.50");
+						System.out.println("3. Suco ----------------------------- R$ 1.50");
+						System.out.println("4. Cola-Cola ------------------------ R$ 1.50\n");
+						
+						System.out.println("Informe o numero do lanche que deseja.");
+						double num = scan.nextDouble();
+						boolean lancheValidado = pedido.validarLanche(num);
+						if(lancheValidado != false) {
+							System.out.printf("O numero %f informado é inválido.", num);
+							break;
+						}else {
+							pedido.setLanche(num);		
+						}
+						System.out.println("Informe o numero da bebida que deseja.");
+						double bebida = scan.nextDouble();
+						boolean bebidaValidada = pedido.validarBebida(num);
+						if(bebidaValidada != false) {
+							System.out.printf("O numero %f informado é inválido.", num);
+							break;
+						}else {
+							pedido.setBebida(bebida);	
+						}
+						double total = pedido.somarPedido(num, bebida);
+						numPedido++;
+						pedido.setNumero(numPedido);
+						clienteEncontrado.setPedido(pedido);
+						clienteEncontrado.setNumeroPedido(numPedido);
+						System.out.println("\n====================================================================");
+						System.out.printf("O valor total do pedido foi %f ", total);
+						System.out.println(".Pedido realizado com sucesso.");
+						System.out.println("====================================================================\n");
+						
+						System.out.println("===========================================================================");
+						System.out.printf("Por favor, insira um numero de satisfação.\n");
+						System.out.println("1. :’(");
+						System.out.println("2. :(");
+						System.out.println("3. -_-");
+						System.out.println("4. :)");
+						System.out.println("5. :D");
+						System.out.println("===========================================================================\n");
+						double numeroSatisfacao = scan.nextDouble();
+						pedido.setSatisfacao(numeroSatisfacao);
+						clienteEncontrado.setPedido(pedido);
+						fep.add(clienteEncontrado);
+						sc.remove(clienteEncontrado);
+						System.out.println("\n=================================");
+						System.out.println("Obrigado pela colaboração.");
+						System.out.println("=================================\n");
+					}
+
+				}else {
+					System.out.println("\n======================================================================================");
+					System.out.println(clienteIdosoEncontrado.getNome().toUpperCase() + " por favor, realize o seu pedido.");
+					System.out.println("======================================================================================\n");
+					System.out.println("------------------ CARDÁPIO ------------------");
+					System.out.println("1. Misto Quente --------------------- R$ 2.50");
+					System.out.println("2. Hanburguer ----------------------- R$ 2.50");
+					System.out.println("3. Suco ----------------------------- R$ 1.50");
+					System.out.println("4. Cola-Cola ------------------------ R$ 1.50\n");
+					
+					System.out.println("Informe o numero do lanche que deseja.");
+					double num = scan.nextDouble();
+					boolean lancheValidado = pedido.validarLanche(num);
+					if(lancheValidado != false) {
+						System.out.printf("O numero %f informado é inválido.", num);
+						break;
+					}else {
+						pedido.setLanche(num);		
+					}
+					System.out.println("Informe o numero da bebida que deseja.");
+					double bebida = scan.nextDouble();
+					boolean bebidaValidada = pedido.validarBebida(num);
+					if(bebidaValidada != false) {
+						System.out.printf("O numero %d informado é inválido.", num);
+						break;
+					}else {
+						pedido.setBebida(bebida);	
+					}
+					double total = pedido.somarPedido(num, bebida);
+					pedido.setNumero(numPedido);
+					clienteIdosoEncontrado.setNumeroPedido(numPedido);
+					System.out.println("\n===========================================================================");
+					System.out.printf("O valor total do pedido foi %f ", total);
+					System.out.println(".Pedido realizado com sucesso.");
+					System.out.println("===========================================================================\n");
+					
+					System.out.println("===========================================================================");
+					System.out.printf("Por favor, insira um numero de satisfação.\n");
+					System.out.println("1. :’(");
+					System.out.println("2. :(");
+					System.out.println("3. -_-");
+					System.out.println("4. :)");
+					System.out.println("5. :D");
+					System.out.println("===========================================================================\n");
+					double numeroSatisfacao = scan.nextDouble();
+					pedido.setSatisfacao(numeroSatisfacao);
+					clienteIdosoEncontrado.setPedido(pedido);
+					fep.addIdoso(clienteIdosoEncontrado);
+					sc.removeIdoso(clienteIdosoEncontrado);
+					System.out.println("\n=================================");
+					System.out.println("Obrigado pela colaboração.");
+					System.out.println("=================================\n");
+				}
+			}
+			
+			if(opcao == 5) {
+				System.out.println("\n================================================================");
+				double result = fep.retornarSatisfacao();
+				double resultIdoso = fep.retornarSatisfacaoIdosa();
+				result += resultIdoso;
+				result /= 2;
+				System.out.printf("A média de satisfação dos nossos clientes é %f ", result);
+				System.out.println("\n================================================================\n");
+			}
+
 			
 		}while(opcao != 0);{
 			System.exit(0);

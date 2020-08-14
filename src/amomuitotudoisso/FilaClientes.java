@@ -12,6 +12,14 @@ public class FilaClientes {
 		fila.add(clientes);
 	}
 	
+	public void remove(Cliente cliente) {
+		fila.remove(cliente);
+	}
+
+	public void removeIdoso(ClienteIdoso clienteIdoso) {
+		filaIdosa.remove(clienteIdoso);
+	}
+	
 	public void addIdoso(ClienteIdoso clienteIdoso) {
 		filaIdosa.addLast(clienteIdoso);
 	}
@@ -67,6 +75,24 @@ public class FilaClientes {
 			String nomeCerto = cl.getNome();
 			if(nomeCerto.equals(nome)) {
 				return cl;
+			}
+		}
+		return null;
+	}
+	
+	public ClienteIdoso retornarClientesIdoso() {
+		for(ClienteIdoso c : filaIdosa) {
+			if(c.getIdade() > 65) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public Cliente retornarCliente() {
+		for(Cliente c : fila) {
+			if(c.getIdade() < 65) {
+				return c;
 			}
 		}
 		return null;

@@ -5,9 +5,16 @@ public class Cliente {
 	private String cpf;
 	private String nome;
 	private int idade;
-	private String numeroPedido;
+	private int numeroPedido;
 	private int index;
+	private Pedido pedido;
 	
+	public Pedido getPedido() {
+		return pedido;
+	}
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
 	public String getCpf() {
 		return cpf;
 	}
@@ -26,10 +33,10 @@ public class Cliente {
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
-	public String getNumeroPedido() {
+	public int getNumeroPedido() {
 		return numeroPedido;
 	}
-	public void setNumeroPedido(String numeroPedido) {
+	public void setNumeroPedido(int numeroPedido) {
 		this.numeroPedido = numeroPedido;
 	}
 	public int getIndex() {
