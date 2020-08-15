@@ -1,6 +1,6 @@
 Link para Testar Projeto: https://repl.it/@jairlopes/Projeto-Amo-Muito-Tudo-Isso#Main.java
 
-<b style="text-align: center">Projeto “Amo muito tudo isso”</b>
+<b>Projeto “Amo muito tudo isso”</b>
                                              
 Em um agradável momento com a família, o professor Orlando, a pedido do
 seu filho, decidiu comer um Méqui – Isopor, um lanche que alega ser “feliz”
