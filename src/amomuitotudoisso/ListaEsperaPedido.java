@@ -3,7 +3,7 @@ package amomuitotudoisso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FilaEsperaPedido {
+public class ListaEsperaPedido {
 
 	List<Cliente> clientes = new ArrayList<Cliente>();
 	List<ClienteIdoso> clientesIdosos = new ArrayList<ClienteIdoso>();
@@ -14,6 +14,14 @@ public class FilaEsperaPedido {
 	
 	public void addIdoso(ClienteIdoso clienteIdoso) {
 		clientesIdosos.add(clienteIdoso);
+	}
+	
+	public void removerCliente(Cliente c) {
+		clientes.remove(c);
+	}
+	
+	public void removerClienteIdoso(ClienteIdoso c) {
+		clientesIdosos.remove(c);
 	}
 	
 	public double retornarSatisfacao() {
@@ -39,5 +47,23 @@ public class FilaEsperaPedido {
 			return d;
 		}
 		return 0;
+	}
+	
+	public Cliente retornarPedido(int num) {
+		for(Cliente c : clientes) {
+			if(c.getNumeroPedido() == num) {
+				return c;
+			}
+		}
+		return null;
+	}
+
+	public ClienteIdoso retornarPedidoIdoso(int num) {
+		for(ClienteIdoso c : clientesIdosos) {
+			if(c.getNumeroPedido() == num) {
+				return c;
+			}
+		}
+		return null;
 	}
 }

@@ -9,7 +9,8 @@ public class App {
 		Scanner scan = new Scanner(System.in);
 		int opcao;
 		FilaClientes sc = new FilaClientes();
-		FilaEsperaPedido fep = new FilaEsperaPedido();
+		ListaEsperaPedido fep = new ListaEsperaPedido();
+		int p = 0;
 		
 		do {
 			System.out.println("PROJETO AMO MUITO TUDO ISSO");
@@ -23,6 +24,8 @@ public class App {
 			System.out.println("4. Realizar Pedido.");
 			System.out.println("==============================");
 			System.out.println("5. Ver média de satisfação.");
+			System.out.println("==============================");
+			System.out.println("6. Pegar pedido.");
 			System.out.println("==============================");
 			System.out.println("0. Sair");
 			System.out.println("==============================");
@@ -108,7 +111,6 @@ public class App {
 			}
 			
 			if(opcao == 4) {
-				int numPedido = 0;
 				Pedido pedido = new Pedido();
 				ClienteIdoso clienteIdosoEncontrado = sc.retornarClientesIdoso();
 				if(clienteIdosoEncontrado == null) {
@@ -149,13 +151,14 @@ public class App {
 							pedido.setBebida(bebida);	
 						}
 						double total = pedido.somarPedido(num, bebida);
-						numPedido++;
-						pedido.setNumero(numPedido);
+						p++;
 						clienteEncontrado.setPedido(pedido);
-						clienteEncontrado.setNumeroPedido(numPedido);
+						clienteEncontrado.setNumeroPedido(p);
 						System.out.println("\n====================================================================");
 						System.out.printf("O valor total do pedido foi %f ", total);
-						System.out.println(".Pedido realizado com sucesso.");
+						System.out.println();
+						System.out.printf("O numero do seu pedido é %d. Pedido realizado com sucesso.", p);
+						System.out.println();
 						System.out.println("====================================================================\n");
 						
 						System.out.println("===========================================================================");
@@ -175,7 +178,6 @@ public class App {
 						System.out.println("Obrigado pela colaboração.");
 						System.out.println("=================================\n");
 					}
-
 				}else {
 					System.out.println("\n======================================================================================");
 					System.out.println(clienteIdosoEncontrado.getNome().toUpperCase() + " por favor, realize o seu pedido.");
@@ -205,11 +207,13 @@ public class App {
 						pedido.setBebida(bebida);	
 					}
 					double total = pedido.somarPedido(num, bebida);
-					pedido.setNumero(numPedido);
-					clienteIdosoEncontrado.setNumeroPedido(numPedido);
+					p++;
+					clienteIdosoEncontrado.setNumeroPedido(p);
 					System.out.println("\n===========================================================================");
 					System.out.printf("O valor total do pedido foi %f ", total);
-					System.out.println(".Pedido realizado com sucesso.");
+					System.out.println();
+					System.out.printf("O numero do seu pedido é %d. Pedido realizado com sucesso.", p);
+					System.out.println();
 					System.out.println("===========================================================================\n");
 					
 					System.out.println("===========================================================================");
@@ -235,12 +239,39 @@ public class App {
 				System.out.println("\n================================================================");
 				double result = fep.retornarSatisfacao();
 				double resultIdoso = fep.retornarSatisfacaoIdosa();
-				result += resultIdoso;
-				result /= 2;
-				System.out.printf("A média de satisfação dos nossos clientes é %f ", result);
-				System.out.println("\n================================================================\n");
+				if(result != 0 && resultIdoso != 0) {
+					result += resultIdoso;
+					result /= 2;
+					System.out.printf("A média de satisfação dos nossos clientes é %f ", result);
+					System.out.println("\n================================================================\n");
+				}else {
+					result += resultIdoso;
+					System.out.printf("A média de satisfação dos nossos clientes é %f ", result);
+					System.out.println("\n================================================================\n");
+				}
 			}
-
+			
+			if(opcao == 6) {
+				System.out.println("Informe o numero do seu pedido.");
+				int num = scan.nextInt();
+				Cliente clienteEncontrado = fep.retornarPedido(num);
+				ClienteIdoso clienteEncontradoIdoso = fep.retornarPedidoIdoso(num);
+				if(clienteEncontrado != null) {
+					System.out.println("\n================================================================");
+					System.out.printf("%s Obrigado por comprar conosco. Volte sempre.", clienteEncontrado.getNome().toLowerCase());
+					System.out.println("\n================================================================\n");
+					fep.removerCliente(clienteEncontrado);
+				}else if(clienteEncontradoIdoso != null) {
+					System.out.println("\n================================================================");
+					System.out.printf("%s Obrigado por comprar conosco. Volte sempre.", clienteEncontradoIdoso.getNome().toLowerCase());
+					System.out.println("\n================================================================\n");
+					fep.removerClienteIdoso(clienteEncontradoIdoso);
+				}else {
+					System.out.println("\n================================================================");
+					System.out.println("Numero de Pedido inválido");
+					System.out.println("================================================================\n");
+				}
+			}
 			
 		}while(opcao != 0);{
 			System.exit(0);
